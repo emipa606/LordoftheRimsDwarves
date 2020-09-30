@@ -2,7 +2,7 @@
 <ModSyncNinjaData>
   <ID>19f9c314-15c1-40c1-9ff0-93973951c968</ID>
   <ModName>Lord of the Rims - Dwarves (Continued)</ModName>
-  <Version>1.0.0.0</Version>
+  <Version>1.0.1.0</Version>
   <SaveBreaking>False</SaveBreaking>
   <Host name="Github">
     <Owner>emipa606</Owner>
@@ -12,7 +12,3 @@
     <Branch>master</Branch>
   </Host>
 </ModSyncNinjaData>
-
-
-
-

@@ -27,15 +27,7 @@
     <canUseAvoidGrid>false</canUseAvoidGrid>
     <techLevel>Medieval</techLevel>
     <earliestRaidDays>9999</earliestRaidDays>
-    <startingGoodwill>
-      <min>-100</min>
-      <max>-100</max>
-    </startingGoodwill>
-    <mustStartOneEnemy>true</mustStartOneEnemy>
-    <naturalColonyGoodwill>
-      <min>-100</min>
-      <max>-100</max>
-    </naturalColonyGoodwill>
+    <permanentEnemy>true</permanentEnemy>
     <pawnGroupMakers>
       <li>
         <kindDef>Combat</kindDef>

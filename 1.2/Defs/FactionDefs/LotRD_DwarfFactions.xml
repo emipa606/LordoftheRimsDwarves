@@ -26,6 +26,8 @@
       <min>0</min>
       <max>40</max>
     </startingGoodwill>
+    <goodwillDailyGain>0.20</goodwillDailyGain>
+    <goodwillDailyFall>0.20</goodwillDailyFall>
     <settlementNameMaker>LotRD_NamerFactionBaseDwarfMountain</settlementNameMaker>
     <techLevel>Medieval</techLevel>
     <backstoryCategories>
@@ -126,6 +128,8 @@
       <min>0</min>
       <max>40</max>
     </startingGoodwill>
+    <goodwillDailyGain>0.20</goodwillDailyGain>
+    <goodwillDailyFall>0.20</goodwillDailyFall>
     <settlementNameMaker>LotRD_NamerFactionBaseDwarfHills</settlementNameMaker>
     <techLevel>Medieval</techLevel>
     <backstoryCategories>
@@ -226,10 +230,7 @@
     <canStageAttacks>true</canStageAttacks>
     <leaderTitle>boss</leaderTitle>
     <factionIconPath>World/BanditDwarves</factionIconPath>
-    <startingGoodwill>
-      <min>-100</min>
-      <max>-90</max>
-    </startingGoodwill>
+    <permanentEnemy>true</permanentEnemy>
     <settlementNameMaker>NamerSettlementPirate</settlementNameMaker>
     <techLevel>Medieval</techLevel>
     <backstoryCategories>
@@ -239,10 +240,6 @@
     <hairTags>
       <li>Rural</li>
     </hairTags>
-    <naturalColonyGoodwill>
-      <min>0</min>
-      <max>0</max>
-    </naturalColonyGoodwill>
     <caravanTraderKinds>
       <li>LotRD_Caravan_Dwarf_BulkGoods</li>
       <li>LotRD_Caravan_Dwarf_CombatSupplier</li>
@@ -258,16 +255,6 @@
       <max>45</max>
     </allowedArrivalTemperatureRange>
     <pawnGroupMakers>
-      <li>
-        <kindDef>Peaceful</kindDef>
-        <options>
-          <LotRD_DwarfThief>50</LotRD_DwarfThief>
-          <LotRD_DwarfBandit>100</LotRD_DwarfBandit>
-          <LotRD_DwarfBanditHunter>100</LotRD_DwarfBanditHunter>
-          <LotRD_DwarfBanditTough>123</LotRD_DwarfBanditTough>
-          <LotRD_DwarfBanditToughRanged>123</LotRD_DwarfBanditToughRanged>
-        </options>
-      </li>
       <li>
         <kindDef>Combat</kindDef>
         <options>
