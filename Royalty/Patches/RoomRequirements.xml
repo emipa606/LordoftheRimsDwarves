@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Patch>
+  <!--  Royalty DLC uses RoomRequirement_Thing when there is only one vanilla thing that can go there instead of the more extensible RoomRequirement_ThingAnyOf.
+        Any mod that wants to add items to this (including yours truly) has to rip out the old one and replace it with RoomRequirement_ThingAnyOf, and then adding their furniture to that.
+        I have high hopes that the patch below will work whether or not some other mod already created a RoomRequirement_ThingAnyOf, without throwing any error messages or masking legitimate errors.
+        Note that esquires and below don't have any bedroom requirements, so they're not listed here. NPC titles have a common base Def "BaseEmpireTitleNPC", so that at least simplifies things.
+  -->
+
+  <Operation Class="PatchOperationSequence">
+    <operations>
+      <!-- first ensure that RoomRequirement_ThingAnyOf is used instead of RoomRequirement_Thing (ignoring any errors if it was already replaced) -->
+      <li Class="PatchOperationReplace">
+        <success>Always</success>
+        <xpath>/Defs/RoyalTitleDef[defName = "Knight" or defName = "Praetor" or defName = "Baron" or defName = "Count" or @Name="BaseEmpireTitleNPC"]/bedroomRequirements/li[@Class = "RoomRequirement_Thing"][thingDef = "EndTable"]</xpath>
+        <value>
+          <li Class="RoomRequirement_ThingAnyOf">
+            <things>
+              <li>EndTable</li>
+            </things>
+          </li>
+        </value>
+      </li>
+      <!-- now either another mod has already created a RoomRequirement_ThingAnyOf or we did it ourselves, so add dwarven endtable to the requirements: -->
+      <li Class="PatchOperationAdd">
+        <xpath>/Defs/RoyalTitleDef[defName = "Knight" or defName = "Praetor" or defName = "Baron" or defName = "Count" or @Name="BaseEmpireTitleNPC"]/bedroomRequirements/li[@Class = "RoomRequirement_ThingAnyOf"]/things[li = "EndTable"]</xpath>
+        <value>
+          <li>LotRD_EndTable</li>
+        </value>
+      </li>
+    </operations>
+  </Operation>
+
+  <!-- now do exactly the same for dwarven dresser: -->
+  <Operation Class="PatchOperationSequence">
+    <operations>
+      <!-- first ensure that RoomRequirement_ThingAnyOf is used instead of RoomRequirement_Thing (ignoring any errors if it was already replaced) -->
+      <li Class="PatchOperationReplace">
+        <success>Always</success>
+        <xpath>/Defs/RoyalTitleDef[defName = "Knight" or defName = "Praetor" or defName = "Baron" or defName = "Count" or @Name="BaseEmpireTitleNPC"]/bedroomRequirements/li[@Class = "RoomRequirement_Thing"][thingDef = "Dresser"]</xpath>
+        <value>
+          <li Class="RoomRequirement_ThingAnyOf">
+            <things>
+              <li>Dresser</li>
+            </things>
+          </li>
+        </value>
+      </li>
+      <!-- now either another mod has already created a RoomRequirement_ThingAnyOf or we did it ourselves, so add dwarven dresser to the requirements: -->
+      <li Class="PatchOperationAdd">
+        <xpath>/Defs/RoyalTitleDef[defName = "Knight" or defName = "Praetor" or defName = "Baron" or defName = "Count" or @Name="BaseEmpireTitleNPC"]/bedroomRequirements/li[@Class = "RoomRequirement_ThingAnyOf"]/things[li = "Dresser"]</xpath>
+        <value>
+          <li>LotRD_Dresser</li>
+        </value>
+      </li>
+    </operations>
+  </Operation>
+</Patch>
