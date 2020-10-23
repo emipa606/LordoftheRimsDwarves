@@ -54,4 +54,57 @@
       </li>
     </operations>
   </Operation>
+
+  <!-- Now, this next bit is less elegant: There is no existing RoomRequirement class that accepts multiple kinds of things AND requires multiple instances of them.
+        Vanilla uses RoomRequirement_ThingCount to require 2 or more braziers, but there is no "RoomRequirement_ThingCountAnyOf" to "require 2 braziers and/or dwarven braizers".
+        We can write one of course, and that's what I did, but this will not be compatible with other mods that do the same because they will have their own classes in their own namespace.
+        Whichever mod comes first will succeed, and all others will fail. I've tried to work around that by ignoring the namespace so if someone did exactly the same as me and named their class either
+        "RoomRequirement_ThingCountAnyOf" or "RoomRequirement_ThingAnyOfCount", it will work if we are loaded after them. If they decided to go with something else completely, I have no way of planning for that.
+        This should also work if vanilla decides to introduce and use such a class (wiht one of those names) as we will just add our furniture tio that.
+  -->
+  <!-- Allow dwarven braziers, chandeliers and candelabra in throne rooms. -->
+  <Operation Class="PatchOperationSequence">
+    <operations>
+      <!-- first ensure that Dwarves.RoomRequirement_ThingCountAnyOf is used instead of RoomRequirement_ThingCount (ignoring any errors if it was already replaced) -->
+      <li Class="PatchOperationReplace">
+        <success>Always</success>
+        <xpath>/Defs/RoyalTitleDef[defName = "Esquire" or defName = "Acolyte" or defName = "Knight" or defName = "Praetor" or defName = "Baron" or defName = "Count" or @Name="BaseEmpireTitleNPC"]/throneRoomRequirements/li[@Class = "RoomRequirement_ThingCount"][thingDef = "Brazier"]</xpath>
+        <value>
+          <li Class="Dwarves.RoomRequirement_ThingCountAnyOf">
+            <things>
+              <li>Brazier</li>
+            </things>
+            <count>2</count>
+          </li>
+        </value>
+      </li>
+      <!-- now either another mod has already created a RoomRequirement_ThingCountAnyOf or we did it ourselves, so add dwarven furniture to the requirements: -->
+      <li Class="PatchOperationAdd">
+        <xpath>/Defs/RoyalTitleDef[defName = "Esquire" or defName = "Acolyte" or defName = "Knight" or defName = "Praetor" or defName = "Baron" or defName = "Count" or @Name="BaseEmpireTitleNPC"]/throneRoomRequirements/li[contains(@Class, "RoomRequirement_ThingCountAnyOf") or contains(@Class, "RoomRequirement_ThingAnyOfCount")]/things[li = "Brazier"]</xpath>
+        <value>
+          <li>LotRD_Brazier</li>
+          <li>LotRD_Chandelier</li>
+          <li>LotRD_DwarvenCandelabra</li>
+        </value>
+      </li>
+      <!-- these new light sources must also be lit! -->
+      <li Class="PatchOperationInsert">
+        <xpath>/Defs/RoyalTitleDef[defName = "Esquire" or defName = "Acolyte" or defName = "Knight" or defName = "Praetor" or defName = "Baron" or defName = "Count" or @Name="BaseEmpireTitleNPC"]/throneRoomRequirements/li[@Class = "RoomRequirement_AllThingsAreGlowing"][labelKey = "RoomRequirementAllBraziersMustBeLit"]</xpath>
+        <value>
+          <li Class="RoomRequirement_AllThingsAreGlowing">
+            <labelKey>LotRD_RoomRequirementAllBraziersMustBeLit</labelKey>
+            <thingDef>LotRD_Brazier</thingDef>
+          </li>
+          <li Class="RoomRequirement_AllThingsAreGlowing">
+            <labelKey>LotRD_RoomRequirementAllChandeliersMustBeLit</labelKey>
+            <thingDef>LotRD_Chandelier</thingDef>
+          </li>
+          <li Class="RoomRequirement_AllThingsAreGlowing">
+            <labelKey>LotRD_RoomRequirementAllCandelabraMustBeLit</labelKey>
+            <thingDef>LotRD_DwarvenCandelabra</thingDef>
+          </li>
+        </value>
+      </li>
+    </operations>
+  </Operation>
 </Patch>
