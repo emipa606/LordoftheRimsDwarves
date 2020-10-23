@@ -55,6 +55,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Building_FermentingMeadBarrel.cs" />
+    <Compile Include="RoomRequirement_ThingCountAnyOf.cs" />
     <Compile Include="Dragon.cs" />
     <Compile Include="DwarfDefOf.cs" />
     <Compile Include="DwarfMod.cs" />
