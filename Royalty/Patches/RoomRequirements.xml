@@ -107,4 +107,60 @@
       </li>
     </operations>
   </Operation>
+
+  <!--
+  TODO: Find something to replace the Drapes as requirement for throne- and bedrooms, they don't seem appropiate for dwarves.
+  Dwarves should accept a mural carved directly into the stone of their walls as a culturally acceptable replacement, or maybe a 2x2 decoratively carved column.
+  Or maybe an ornate weapons stand. For now accepting a Dwarven Game Table just so we have something and to make it easier for whoever wants to add such an item in future.
+  -->
+  <Operation Class="PatchOperationSequence">
+    <operations>
+      <!-- first ensure that Dwarves.RoomRequirement_ThingCountAnyOf is used instead of RoomRequirement_ThingCount (ignoring any errors if it was already replaced) -->
+      <!-- Note that there are different required counts for drapes out there and I haven't found a better way than handling each individually. -->
+      <!-- They're also found in both throne rooms as well as bedrooms, for which I have not found a better way than duplicating the XPath as I do below. -->
+      <li Class="PatchOperationSequence">
+        <success>Always</success>
+        <operations>
+          <li Class="PatchOperationReplace">
+            <xpath>
+              /Defs/RoyalTitleDef[defName = "Baron" or defName = "Count" or @Name="BaseEmpireTitleNPC"]/throneRoomRequirements/li[@Class = "RoomRequirement_ThingCount"][thingDef = "Drape"][count = 1]
+              | /Defs/RoyalTitleDef[defName = "Baron" or defName = "Count" or @Name="BaseEmpireTitleNPC"]/bedroomRequirements/li[@Class = "RoomRequirement_ThingCount"][thingDef = "Drape"][count = 1]
+            </xpath>
+            <value>
+              <li Class="Dwarves.RoomRequirement_ThingCountAnyOf">
+                <things>
+                  <li>Drape</li>
+                </things>
+                <count>1</count>
+              </li>
+            </value>
+          </li>
+          <li Class="PatchOperationReplace">
+            <xpath>
+              /Defs/RoyalTitleDef[defName = "Baron" or defName = "Count" or @Name="BaseEmpireTitleNPC"]/throneRoomRequirements/li[@Class = "RoomRequirement_ThingCount"][thingDef = "Drape"][count = 2]
+              | /Defs/RoyalTitleDef[defName = "Baron" or defName = "Count" or @Name="BaseEmpireTitleNPC"]/bedroomRequirements/li[@Class = "RoomRequirement_ThingCount"][thingDef = "Drape"][count = 2]
+            </xpath>
+            <value>
+              <li Class="Dwarves.RoomRequirement_ThingCountAnyOf">
+                <things>
+                  <li>Drape</li>
+                </things>
+                <count>2</count>
+              </li>
+            </value>
+          </li>
+        </operations>
+      </li>
+      <!-- now either another mod has already created a RoomRequirement_ThingCountAnyOf or we did it ourselves, so add dwarven furniture to the requirements: -->
+      <li Class="PatchOperationAdd">
+        <xpath>
+          /Defs/RoyalTitleDef[defName = "Baron" or defName = "Count" or @Name="BaseEmpireTitleNPC"]/throneRoomRequirements/li[contains(@Class, "RoomRequirement_ThingCountAnyOf") or contains(@Class, "RoomRequirement_ThingAnyOfCount")]/things[li = "Drape"]
+          | /Defs/RoyalTitleDef[defName = "Baron" or defName = "Count" or @Name="BaseEmpireTitleNPC"]/bedroomRequirements/li[contains(@Class, "RoomRequirement_ThingCountAnyOf") or contains(@Class, "RoomRequirement_ThingAnyOfCount")]/things[li = "Drape"]
+        </xpath>
+        <value>
+          <li>LotRD_GameTable</li>
+        </value>
+      </li>
+    </operations>
+  </Operation>
 </Patch>
