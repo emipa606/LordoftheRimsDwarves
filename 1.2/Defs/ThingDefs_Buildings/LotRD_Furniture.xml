@@ -264,8 +264,14 @@
       <damageData>
         <rect>(0.05,0.1,0.9,0.9)</rect>
       </damageData>
+      <drawRotated>false</drawRotated>
     </graphicData>
+    <defaultPlacingRot>South</defaultPlacingRot>
     <altitudeLayer>Item</altitudeLayer>
+    <category>Building</category>
+    <thingSetMakerTags>
+      <li>RewardStandardQualitySuper</li>
+    </thingSetMakerTags>
     <statBases>
       <MaxHitPoints>400</MaxHitPoints>
       <WorkToBuild>2200</WorkToBuild>
@@ -274,11 +280,13 @@
       <Beauty>20</Beauty>
       <Comfort>1.2</Comfort>
     </statBases>
+    <thingClass>Building_Throne</thingClass>
     <passability>Standable</passability>
     <costList>
       <Gold>10</Gold>
     </costList>
     <stuffCategories>
+      <li>Metallic</li>
       <li>Stony</li>
     </stuffCategories>
     <costStuffCount>300</costStuffCount>
@@ -287,6 +295,7 @@
     <fillPercent>0.75</fillPercent>
     <building>
       <isSittable>true</isSittable>
+      <buildingSizeCategory>Medium</buildingSizeCategory>
     </building>
     <placeWorkers>
       <li>JecsTools.PlaceWorker_Outline</li>
