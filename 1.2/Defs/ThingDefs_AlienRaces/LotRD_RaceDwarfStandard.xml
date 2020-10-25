@@ -221,7 +221,7 @@
       </raceRestriction>
       <thoughtSettings>
         <cannotReceiveThoughts>
-          <li>CabinFever</li>
+          <li>NeedOutdoors</li>
         </cannotReceiveThoughts>
       </thoughtSettings>
     </alienRace>
