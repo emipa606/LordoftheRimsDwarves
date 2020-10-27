@@ -40,36 +40,48 @@
     <li>erdelf.HumanoidAlienRaces</li>
     <li>CETeam.CombatExtended</li>
   </loadAfter>
-  <description>Update of Jecrells mod
+  <description>[img]https://i.imgur.com/WAEzk68.png[/img]
+Update of Jecrells mod
 https://steamcommunity.com/sharedfiles/filedetails/?id=1400238872
 
-[img]https://i.imgur.com/GYswkZ7.png[/img]
-
-Support-chat:
-https://invite.gg/mlie
-
-Non-steam version:
-https://github.com/emipa606/LordoftheRimsDwarves
-	
 - This is an unofficial port
 - This will be removed when/if Jecrell comes back
 - I have not managed to fix the Dwarven Fortress incident yet
+- Added support for Combat Extended
+- Fixed starting goodwill with Empire
 
---- Original Description ---
+[img]https://i.imgur.com/7Gzt3Rg.png[/img]
+
+[table]
+	[tr]
+		[td][url=https://invite.gg/Mlie][img]https://i.imgur.com/zdzzBrc.png[/img][/url][/td]
+		[td][url=https://github.com/emipa606/LordoftheRimsDwarves][img]https://i.imgur.com/kTkpTOE.png[/img][/url][/td]
+	[/tr]
+[/table]
+	
+[img]https://i.imgur.com/NOW7jU1.png[/img]
+
 Adds Dwarves to RimWorld.
 
 Includes:
-Playable Dwarven race.
-Starter Dwarven scenario.
-Three Dwarven factions. One of which will start hostile to players.
-Mountable (with Giddy-Up!) giant boars.
-A new quest to raid a randomly generated dwarven mountain fortress from a certain foe.
-Also includes Dwarven armor, weapons, doors, walls, furniture, and toys.
+ Playable Dwarven race.
+ Starter Dwarven scenario.
+ Three Dwarven factions. One of which will start hostile to players.
+ Mountable (with Giddy-Up!) giant boars.
+ A new quest to raid a randomly generated dwarven mountain fortress from a certain foe.
+ Also includes Dwarven armor, weapons, doors, walls, furniture, and toys.
 
 Requires:
-JecsTools, DoorsExpanded, and Humanoid Alien Races
+ JecsTools, DoorsExpanded, and Humanoid Alien Races
 
 
 (Apologies that this workshop page isn't very nice. It's 3AM, so I'll fix this up to look nicer tomorrow! =D)
-</description>
+
+Join the Lord of the Rims channel to discuss the mod.
+https://discord.gg/jcMf4am
+
+[h1]Psst...
+Still there fellow RimWorlder?
+Want to buy me a coffee? Perhaps more mods for RimWorld?
+Consider donating to my Patreon, here: https://www.patreon.com/jecrell[/h1]</description>
 </ModMetaData>
