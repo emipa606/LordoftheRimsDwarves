@@ -15,6 +15,7 @@
     <value>
       <!-- changes to make this viable for meditation: -->
       <hasInteractionCell>true</hasInteractionCell>
+      <thingClass>Building_Throne</thingClass>
       <socialPropernessMatters>true</socialPropernessMatters>
       <drawGUIOverlay>true</drawGUIOverlay>
       <drawGUIOverlayQuality>false</drawGUIOverlayQuality>
