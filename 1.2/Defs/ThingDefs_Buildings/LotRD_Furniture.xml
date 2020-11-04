@@ -280,7 +280,6 @@
       <Beauty>20</Beauty>
       <Comfort>1.2</Comfort>
     </statBases>
-    <thingClass>Building_Throne</thingClass>
     <passability>Standable</passability>
     <costList>
       <Gold>10</Gold>
