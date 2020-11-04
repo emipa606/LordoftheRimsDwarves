@@ -11,7 +11,7 @@
       <!-- first ensure that RoomRequirement_ThingAnyOf is used instead of RoomRequirement_Thing (ignoring any errors if it was already replaced) -->
       <li Class="PatchOperationReplace">
         <success>Always</success>
-        <xpath>/Defs/RoyalTitleDef[defName = "Knight" or defName = "Praetor" or defName = "Baron" or defName = "Count" or @Name="BaseEmpireTitleNPC"]/bedroomRequirements/li[@Class = "RoomRequirement_Thing"][thingDef = "EndTable"]</xpath>
+        <xpath>/Defs/RoyalTitleDef/bedroomRequirements/li[@Class = "RoomRequirement_Thing"][thingDef = "EndTable"]</xpath>
         <value>
           <li Class="RoomRequirement_ThingAnyOf">
             <things>
@@ -22,7 +22,7 @@
       </li>
       <!-- now either another mod has already created a RoomRequirement_ThingAnyOf or we did it ourselves, so add dwarven endtable to the requirements: -->
       <li Class="PatchOperationAdd">
-        <xpath>/Defs/RoyalTitleDef[defName = "Knight" or defName = "Praetor" or defName = "Baron" or defName = "Count" or @Name="BaseEmpireTitleNPC"]/bedroomRequirements/li[@Class = "RoomRequirement_ThingAnyOf"]/things[li = "EndTable"]</xpath>
+        <xpath>/Defs/RoyalTitleDef/bedroomRequirements/li[@Class = "RoomRequirement_ThingAnyOf"]/things[li = "EndTable"]</xpath>
         <value>
           <li>LotRD_EndTable</li>
         </value>
@@ -36,7 +36,7 @@
       <!-- first ensure that RoomRequirement_ThingAnyOf is used instead of RoomRequirement_Thing (ignoring any errors if it was already replaced) -->
       <li Class="PatchOperationReplace">
         <success>Always</success>
-        <xpath>/Defs/RoyalTitleDef[defName = "Knight" or defName = "Praetor" or defName = "Baron" or defName = "Count" or @Name="BaseEmpireTitleNPC"]/bedroomRequirements/li[@Class = "RoomRequirement_Thing"][thingDef = "Dresser"]</xpath>
+        <xpath>/Defs/RoyalTitleDef/bedroomRequirements/li[@Class = "RoomRequirement_Thing"][thingDef = "Dresser"]</xpath>
         <value>
           <li Class="RoomRequirement_ThingAnyOf">
             <things>
@@ -47,7 +47,7 @@
       </li>
       <!-- now either another mod has already created a RoomRequirement_ThingAnyOf or we did it ourselves, so add dwarven dresser to the requirements: -->
       <li Class="PatchOperationAdd">
-        <xpath>/Defs/RoyalTitleDef[defName = "Knight" or defName = "Praetor" or defName = "Baron" or defName = "Count" or @Name="BaseEmpireTitleNPC"]/bedroomRequirements/li[@Class = "RoomRequirement_ThingAnyOf"]/things[li = "Dresser"]</xpath>
+        <xpath>/Defs/RoyalTitleDef/bedroomRequirements/li[@Class = "RoomRequirement_ThingAnyOf"]/things[li = "Dresser"]</xpath>
         <value>
           <li>LotRD_Dresser</li>
         </value>
@@ -68,7 +68,7 @@
       <!-- first ensure that Dwarves.RoomRequirement_ThingCountAnyOf is used instead of RoomRequirement_ThingCount (ignoring any errors if it was already replaced) -->
       <li Class="PatchOperationReplace">
         <success>Always</success>
-        <xpath>/Defs/RoyalTitleDef[defName = "Esquire" or defName = "Acolyte" or defName = "Knight" or defName = "Praetor" or defName = "Baron" or defName = "Count" or @Name="BaseEmpireTitleNPC"]/throneRoomRequirements/li[@Class = "RoomRequirement_ThingCount"][thingDef = "Brazier"]</xpath>
+        <xpath>/Defs/RoyalTitleDef/throneRoomRequirements/li[@Class = "RoomRequirement_ThingCount"][thingDef = "Brazier"]</xpath>
         <value>
           <li Class="Dwarves.RoomRequirement_ThingCountAnyOf">
             <things>
@@ -80,7 +80,7 @@
       </li>
       <!-- now either another mod has already created a RoomRequirement_ThingCountAnyOf or we did it ourselves, so add dwarven furniture to the requirements: -->
       <li Class="PatchOperationAdd">
-        <xpath>/Defs/RoyalTitleDef[defName = "Esquire" or defName = "Acolyte" or defName = "Knight" or defName = "Praetor" or defName = "Baron" or defName = "Count" or @Name="BaseEmpireTitleNPC"]/throneRoomRequirements/li[contains(@Class, "RoomRequirement_ThingCountAnyOf") or contains(@Class, "RoomRequirement_ThingAnyOfCount")]/things[li = "Brazier"]</xpath>
+        <xpath>/Defs/RoyalTitleDef/throneRoomRequirements/li[contains(@Class, "RoomRequirement_ThingCountAnyOf") or contains(@Class, "RoomRequirement_ThingAnyOfCount")]/things[li = "Brazier"]</xpath>
         <value>
           <li>LotRD_Brazier</li>
           <li>LotRD_Chandelier</li>
@@ -89,7 +89,7 @@
       </li>
       <!-- these new light sources must also be lit! -->
       <li Class="PatchOperationInsert">
-        <xpath>/Defs/RoyalTitleDef[defName = "Esquire" or defName = "Acolyte" or defName = "Knight" or defName = "Praetor" or defName = "Baron" or defName = "Count" or @Name="BaseEmpireTitleNPC"]/throneRoomRequirements/li[@Class = "RoomRequirement_AllThingsAreGlowing"][labelKey = "RoomRequirementAllBraziersMustBeLit"]</xpath>
+        <xpath>/Defs/RoyalTitleDef/throneRoomRequirements/li[@Class = "RoomRequirement_AllThingsAreGlowing"][labelKey = "RoomRequirementAllBraziersMustBeLit"]</xpath>
         <value>
           <li Class="RoomRequirement_AllThingsAreGlowing">
             <labelKey>LotRD_RoomRequirementAllBraziersMustBeLit</labelKey>
@@ -123,8 +123,8 @@
         <operations>
           <li Class="PatchOperationReplace">
             <xpath>
-              /Defs/RoyalTitleDef[defName = "Baron" or defName = "Count" or @Name="BaseEmpireTitleNPC"]/throneRoomRequirements/li[@Class = "RoomRequirement_ThingCount"][thingDef = "Drape"][count = 1]
-              | /Defs/RoyalTitleDef[defName = "Baron" or defName = "Count" or @Name="BaseEmpireTitleNPC"]/bedroomRequirements/li[@Class = "RoomRequirement_ThingCount"][thingDef = "Drape"][count = 1]
+              /Defs/RoyalTitleDef/throneRoomRequirements/li[@Class = "RoomRequirement_ThingCount"][thingDef = "Drape"][count = 1]
+              | /Defs/RoyalTitleDef/bedroomRequirements/li[@Class = "RoomRequirement_ThingCount"][thingDef = "Drape"][count = 1]
             </xpath>
             <value>
               <li Class="Dwarves.RoomRequirement_ThingCountAnyOf">
@@ -137,8 +137,8 @@
           </li>
           <li Class="PatchOperationReplace">
             <xpath>
-              /Defs/RoyalTitleDef[defName = "Baron" or defName = "Count" or @Name="BaseEmpireTitleNPC"]/throneRoomRequirements/li[@Class = "RoomRequirement_ThingCount"][thingDef = "Drape"][count = 2]
-              | /Defs/RoyalTitleDef[defName = "Baron" or defName = "Count" or @Name="BaseEmpireTitleNPC"]/bedroomRequirements/li[@Class = "RoomRequirement_ThingCount"][thingDef = "Drape"][count = 2]
+              /Defs/RoyalTitleDef/throneRoomRequirements/li[@Class = "RoomRequirement_ThingCount"][thingDef = "Drape"][count = 2]
+              | /Defs/RoyalTitleDef/bedroomRequirements/li[@Class = "RoomRequirement_ThingCount"][thingDef = "Drape"][count = 2]
             </xpath>
             <value>
               <li Class="Dwarves.RoomRequirement_ThingCountAnyOf">
@@ -154,8 +154,8 @@
       <!-- now either another mod has already created a RoomRequirement_ThingCountAnyOf or we did it ourselves, so add dwarven furniture to the requirements: -->
       <li Class="PatchOperationAdd">
         <xpath>
-          /Defs/RoyalTitleDef[defName = "Baron" or defName = "Count" or @Name="BaseEmpireTitleNPC"]/throneRoomRequirements/li[contains(@Class, "RoomRequirement_ThingCountAnyOf") or contains(@Class, "RoomRequirement_ThingAnyOfCount")]/things[li = "Drape"]
-          | /Defs/RoyalTitleDef[defName = "Baron" or defName = "Count" or @Name="BaseEmpireTitleNPC"]/bedroomRequirements/li[contains(@Class, "RoomRequirement_ThingCountAnyOf") or contains(@Class, "RoomRequirement_ThingAnyOfCount")]/things[li = "Drape"]
+          /Defs/RoyalTitleDef/throneRoomRequirements/li[contains(@Class, "RoomRequirement_ThingCountAnyOf") or contains(@Class, "RoomRequirement_ThingAnyOfCount")]/things[li = "Drape"]
+          | /Defs/RoyalTitleDef/bedroomRequirements/li[contains(@Class, "RoomRequirement_ThingCountAnyOf") or contains(@Class, "RoomRequirement_ThingAnyOfCount")]/things[li = "Drape"]
         </xpath>
         <value>
           <li>LotRD_GameTable</li>
