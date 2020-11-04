@@ -176,6 +176,9 @@
       <EquipDelay>2</EquipDelay>
       <SellPriceFactor>2</SellPriceFactor>
     </statBases>
+    <thingCategories>
+      <li>HeadgearNoble</li>
+    </thingCategories>
     <generateCommonality>2</generateCommonality>
     <apparel>
       <bodyPartGroups>
@@ -187,6 +190,8 @@
       </layers>
       <tags>
         <li>LotR_DwarfMilitary</li>
+        <li>Royal</li>
+        <li>RoyalTier5</li>
       </tags>
     </apparel>
     <tradeTags>
@@ -226,6 +231,9 @@
     <equippedStatOffsets>
       <SocialImpact>0.3</SocialImpact>
     </equippedStatOffsets>
+    <thingCategories>
+      <li>HeadgearNoble</li>
+    </thingCategories>
     <generateCommonality>0.01</generateCommonality>
     <apparel>
       <bodyPartGroups>
@@ -237,6 +245,10 @@
       </layers>
       <tags>
         <li>LotR_DwarfNoble</li>
+        <li>Royal</li>
+        <li>RoyalTier5</li>
+        <li>RoyalTier6</li>
+        <li>RoyalTier7</li>
       </tags>
     </apparel>
   </ThingDef>
