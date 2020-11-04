@@ -14,9 +14,9 @@ namespace Dwarves
                 Log.Message("Absorbed flame damage");
                 absorbed = true;
             }
-            if (!this.InMentalState && dinfo.Instigator is Pawn p && p?.Faction == Faction.OfPlayerSilentFail)
+            if (!InMentalState && dinfo.Instigator is Pawn p && p?.Faction == Faction.OfPlayerSilentFail)
             {
-                this.mindState.mentalStateHandler.TryStartMentalState(MentalStateDefOf.Manhunter, p.Label, true, false,
+                mindState.mentalStateHandler.TryStartMentalState(MentalStateDefOf.Manhunter, p.Label, true, false,
                     null);
             }
         }
@@ -33,10 +33,12 @@ namespace Dwarves
             if (!hediffsToRemove.NullOrEmpty())
             {
                 if (hediffsToRemove != null)
+                {
                     foreach (var hd in hediffsToRemove)
                     {
                         this?.health?.RemoveHediff(hd);
                     }
+                }
             }
         }
 
@@ -44,7 +46,7 @@ namespace Dwarves
         {
            
             Thought_MemoryObservation thought_MemoryObservation = null;
-            if (this.Dead)
+            if (Dead)
             {
                 if (ThoughtDef.Named("LotRD_ObservedDragonDead") is ThoughtDef td)
                 {
@@ -52,7 +54,7 @@ namespace Dwarves
                         (Thought_MemoryObservation) ThoughtMaker.MakeThought(td);
                 }
             }
-            else if (this.InAggroMentalState)
+            else if (InAggroMentalState)
             {
                 if (ThoughtDef.Named("LotRD_ObservedDragonEnraged") is ThoughtDef td)
                 {

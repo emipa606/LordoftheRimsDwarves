@@ -13,33 +13,31 @@ namespace Dwarves
         private const TargetIndex ToyInd = TargetIndex.A;
         private const TargetIndex joySpot = TargetIndex.B;
 
-        private Thing PuzzleBox
-        {
-            get { return this.job.GetTarget(TargetIndex.A).Thing; }
-        }
+        private Thing PuzzleBox => job.GetTarget(TargetIndex.A).Thing;
 
         public override bool TryMakePreToilReservations(bool yeaa)
         {
-            return this.pawn.Reserve(PuzzleBox, this.job, 1, -1, null);
+            return pawn.Reserve(PuzzleBox, job, 1, -1, null);
         }
 
         protected override IEnumerable<Toil> MakeNewToils()
         {
             yield return Toils_Goto.GotoThing(ToyInd, PathEndMode.ClosestTouch).FailOnDespawnedNullOrForbidden(ToyInd);
-            yield return Toils_Ingest.PickupIngestible(ToyInd, this.pawn);
+            yield return Toils_Ingest.PickupIngestible(ToyInd, pawn);
             yield return CarryToyToSpot(pawn, ToyInd);
             yield return Toils_Ingest.FindAdjacentEatSurface(joySpot, ToyInd);
             Toil playWithToy;
-            playWithToy = new Toil();
-
-            playWithToy.tickAction = this.WaitTickAction();
+            playWithToy = new Toil
+            {
+                tickAction = WaitTickAction()
+            };
             playWithToy.AddFinishAction(() =>
             {
-                JoyUtility.TryGainRecRoomThought(this.pawn);
-                this.TalkToDoll();
+                JoyUtility.TryGainRecRoomThought(pawn);
+                TalkToDoll();
             });
             playWithToy.defaultCompleteMode = ToilCompleteMode.Delay;
-            playWithToy.defaultDuration = this.job.def.joyDuration;
+            playWithToy.defaultDuration = job.def.joyDuration;
             playWithToy.handlingFacing = true;
             yield return playWithToy;
         }
@@ -49,7 +47,10 @@ namespace Dwarves
             var symbol = InteractionDefOf.Chitchat.Symbol;
             if (((Rand.Value > 0.5f) && pawn?.needs?.joy?.CurCategory <= JoyCategory.Low) ||
                 (pawn?.story?.traits.HasTrait(TraitDefOf.Abrasive) ?? false))
+            {
                 symbol = InteractionDefOf.Insult.Symbol;
+            }
+
             MoteMaker.MakeInteractionBubble(pawn, null, ThingDefOf.Mote_Speech, symbol);
 //            float extraLuckFromQuality = base.TargetThingA.GetStatValue(StatDefOf.JoyGainFactor, true);
 //            float extraLuckFromSmarts = pawn.skills.GetSkill(SkillDefOf.Intellectual).levelInt;
@@ -76,24 +77,24 @@ namespace Dwarves
         {
             return delegate
             {
-                this.pawn.rotationTracker.FaceCell(base.TargetB.Cell);
-                this.pawn.GainComfortFromCellIfPossible();
-                float extraJoyGainFactor = base.TargetThingA.GetStatValue(StatDefOf.JoyGainFactor, true);
-                JoyUtility.JoyTickCheckEnd(this.pawn, JoyTickFullJoyAction.EndJob, extraJoyGainFactor);
+                pawn.rotationTracker.FaceCell(TargetB.Cell);
+                pawn.GainComfortFromCellIfPossible();
+                var extraJoyGainFactor = TargetThingA.GetStatValue(StatDefOf.JoyGainFactor, true);
+                JoyUtility.JoyTickCheckEnd(pawn, JoyTickFullJoyAction.EndJob, extraJoyGainFactor);
             };
         }
 
         //slightly modified version of Toils_Ingest.CarryIngestibleToChewSpot
         public static Toil CarryToyToSpot(Pawn pawn, TargetIndex puzzleInd)
         {
-            Toil toil = new Toil();
+            var toil = new Toil();
             toil.initAction = delegate
             {
                 Pawn actor = toil.actor;
                 IntVec3 intVec = IntVec3.Invalid;
                 Thing thing = null;
                 Thing thing2 = actor.CurJob.GetTarget(puzzleInd).Thing;
-                Predicate<Thing> baseChairValidator = delegate(Thing t)
+                bool baseChairValidator(Thing t)
                 {
                     if (t.def.building == null || !t.def.building.isSittable)
                     {
@@ -119,8 +120,8 @@ namespace Dwarves
                     {
                         return false;
                     }
-                    bool result = false;
-                    for (int i = 0; i < 4; i++)
+                    var result = false;
+                    for (var i = 0; i < 4; i++)
                     {
                         IntVec3 c = t.Position + GenAdj.CardinalDirections[i];
                         Building edifice = c.GetEdifice(t.Map);
@@ -131,7 +132,7 @@ namespace Dwarves
                         }
                     }
                     return result;
-                };
+                }
 
                 //if you can find a table with chair, great. If not, go to your room.
 

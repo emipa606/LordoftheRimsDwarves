@@ -12,9 +12,9 @@ namespace Dwarves
         private void SpawnGlower()
         {
             Thing thing = ThingMaker.MakeThing(glowerDef, null);
-            IntVec3 position = this.Position + GenAdj.CardinalDirections[0]
+            IntVec3 position = Position + GenAdj.CardinalDirections[0]
                                              + GenAdj.CardinalDirections[0];
-            GenPlace.TryPlaceThing(thing, position, this.Map, ThingPlaceMode.Near);
+            GenPlace.TryPlaceThing(thing, position, Map, ThingPlaceMode.Near);
             glower = thing as ThingWithComps_Glower;
             glower.master = this;
         }
@@ -32,7 +32,11 @@ namespace Dwarves
             {
                 if (compBreakdownable.BrokenDown)
                 {
-                    if (glower != null) DespawnGlower();
+                    if (glower != null)
+                    {
+                        DespawnGlower();
+                    }
+
                     return;
                 }
                 if (glower == null)
@@ -66,7 +70,7 @@ namespace Dwarves
         public override void ExposeData()
         {
             base.ExposeData();
-            Scribe_References.Look<ThingWithComps_Glower>(ref this.glower, "glower", false);
+            Scribe_References.Look(ref glower, "glower", false);
         }
     }
 }

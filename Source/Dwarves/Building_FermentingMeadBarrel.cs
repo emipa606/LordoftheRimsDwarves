@@ -11,31 +11,28 @@ namespace Dwarves
 	public class Building_FermentingMeadBarrel : Building
 	{
 		public float Progress
-		{
-			get
-			{
-				return this.progressInt;
-			}
-			set
-			{
-				if (value == this.progressInt)
-				{
-					return;
-				}
-				this.progressInt = value;
-				this.barFilledCachedMat = null;
-			}
-		}
+        {
+            get => progressInt;
+            set
+            {
+                if (value == progressInt)
+                {
+                    return;
+                }
+                progressInt = value;
+                barFilledCachedMat = null;
+            }
+        }
 
-		private Material BarFilledMat
+        private Material BarFilledMat
 		{
 			get
 			{
-				if (this.barFilledCachedMat == null)
+				if (barFilledCachedMat == null)
 				{
-					this.barFilledCachedMat = SolidColorMaterials.SimpleSolidColorMaterial(Color.Lerp(Building_FermentingMeadBarrel.BarZeroProgressColor, Building_FermentingMeadBarrel.BarFermentedColor, this.Progress), false);
+					barFilledCachedMat = SolidColorMaterials.SimpleSolidColorMaterial(Color.Lerp(BarZeroProgressColor, BarFermentedColor, Progress), false);
 				}
-				return this.barFilledCachedMat;
+				return barFilledCachedMat;
 			}
 		}
 
@@ -43,36 +40,24 @@ namespace Dwarves
 		{
 			get
 			{
-				if (this.Fermented)
+				if (Fermented)
 				{
 					return 0;
 				}
-				return 20 - this.wortCount;
+				return 20 - wortCount;
 			}
 		}
 
-		private bool Empty
-		{
-			get
-			{
-				return this.wortCount <= 0;
-			}
-		}
+        private bool Empty => wortCount <= 0;
 
-		public bool Fermented
-		{
-			get
-			{
-				return !this.Empty && this.Progress >= 1f;
-			}
-		}
+        public bool Fermented => !Empty && Progress >= 1f;
 
-		private float CurrentTempProgressSpeedFactor
+        private float CurrentTempProgressSpeedFactor
 		{
 			get
 			{
-				CompProperties_TemperatureRuinable compProperties = this.def.GetCompProperties<CompProperties_TemperatureRuinable>();
-				float ambientTemperature = base.AmbientTemperature;
+				CompProperties_TemperatureRuinable compProperties = def.GetCompProperties<CompProperties_TemperatureRuinable>();
+				var ambientTemperature = AmbientTemperature;
 				if (ambientTemperature < compProperties.minSafeTemperature)
 				{
 					return 0.1f;
@@ -85,95 +70,83 @@ namespace Dwarves
 			}
 		}
 
-		private float ProgressPerTickAtCurrentTemp
-		{
-			get
-			{
-				return 1.66666666E-06f * this.CurrentTempProgressSpeedFactor;
-			}
-		}
+        private float ProgressPerTickAtCurrentTemp => 1.66666666E-06f * CurrentTempProgressSpeedFactor;
 
-		private int EstimatedTicksLeft
-		{
-			get
-			{
-				return Mathf.Max(Mathf.RoundToInt((1f - this.Progress) / this.ProgressPerTickAtCurrentTemp), 0);
-			}
-		}
+        private int EstimatedTicksLeft => Mathf.Max(Mathf.RoundToInt((1f - Progress) / ProgressPerTickAtCurrentTemp), 0);
 
-		public override void ExposeData()
+        public override void ExposeData()
 		{
 			base.ExposeData();
-			Scribe_Values.Look<int>(ref this.wortCount, "wortCount", 0, false);
-			Scribe_Values.Look<float>(ref this.progressInt, "progress", 0f, false);
+			Scribe_Values.Look(ref wortCount, "wortCount", 0, false);
+			Scribe_Values.Look(ref progressInt, "progress", 0f, false);
 		}
 
 		public override void TickRare()
 		{
 			base.TickRare();
-			if (!this.Empty)
+			if (!Empty)
 			{
-				this.Progress = Mathf.Min(this.Progress + 200f * this.ProgressPerTickAtCurrentTemp, 1f);
+				Progress = Mathf.Min(Progress + (200f * ProgressPerTickAtCurrentTemp), 1f);
 			}
 		}
 
 		public void AddWort(int count)
 		{
-			base.GetComp<CompTemperatureRuinable>().Reset();
-			if (this.Fermented)
+            GetComp<CompTemperatureRuinable>().Reset();
+			if (Fermented)
 			{
 				Log.Warning("Tried to add mead wort to a barrel full of mead. Colonists should take the mead first.");
 				return;
 			}
-			int num = Mathf.Min(count, 20 - this.wortCount);
+			var num = Mathf.Min(count, 20 - wortCount);
 			if (num <= 0)
 			{
 				return;
 			}
-			this.Progress = GenMath.WeightedAverage(0f, (float)num, this.Progress, (float)this.wortCount);
-			this.wortCount += num;
+			Progress = GenMath.WeightedAverage(0f, (float)num, Progress, (float)wortCount);
+			wortCount += num;
 		}
 
 		protected override void ReceiveCompSignal(string signal)
 		{
 			if (signal == "RuinedByTemperature")
 			{
-				this.Reset();
+				Reset();
 			}
 		}
 
 		private void Reset()
 		{
-			this.wortCount = 0;
-			this.Progress = 0f;
+			wortCount = 0;
+			Progress = 0f;
 		}
 
 		public void AddWort(Thing wort)
 		{
-			int num = Mathf.Min(wort.stackCount, 20 - this.wortCount);
+			var num = Mathf.Min(wort.stackCount, 20 - wortCount);
 			if (num > 0)
 			{
-				this.AddWort(num);
+				AddWort(num);
 				wort.SplitOff(num).Destroy(DestroyMode.Vanish);
 			}
 		}
 
 		public override string GetInspectString()
 		{
-			StringBuilder stringBuilder = new StringBuilder();
+			var stringBuilder = new StringBuilder();
 			stringBuilder.Append(base.GetInspectString());
 			if (stringBuilder.Length != 0)
 			{
 				stringBuilder.AppendLine();
 			}
-			CompTemperatureRuinable comp = base.GetComp<CompTemperatureRuinable>();
-			if (!this.Empty && !comp.Ruined)
+			CompTemperatureRuinable comp = GetComp<CompTemperatureRuinable>();
+			if (!Empty && !comp.Ruined)
 			{
-				if (this.Fermented)
+				if (Fermented)
 				{
 					stringBuilder.AppendLine("LotRD_ContainsMead".Translate(new object[]
 					{
-						this.wortCount,
+						wortCount,
 						20
 					}));
 				}
@@ -181,14 +154,14 @@ namespace Dwarves
 				{
 					stringBuilder.AppendLine("LotRD_ContainsWortMead".Translate(new object[]
 					{
-						this.wortCount,
+						wortCount,
 						20
 					}));
 				}
 			}
-			if (!this.Empty)
+			if (!Empty)
 			{
-				if (this.Fermented)
+				if (Fermented)
 				{
 					stringBuilder.AppendLine("Fermented".Translate());
 				}
@@ -196,19 +169,19 @@ namespace Dwarves
 				{
 					stringBuilder.AppendLine("FermentationProgress".Translate(new object[]
 					{
-						this.Progress.ToStringPercent(),
-						this.EstimatedTicksLeft.ToStringTicksToPeriod()
+						Progress.ToStringPercent(),
+						EstimatedTicksLeft.ToStringTicksToPeriod()
 					}));
-					if (this.CurrentTempProgressSpeedFactor != 1f)
+					if (CurrentTempProgressSpeedFactor != 1f)
 					{
 						stringBuilder.AppendLine("FermentationBarrelOutOfIdealTemperature".Translate(new object[]
 						{
-							this.CurrentTempProgressSpeedFactor.ToStringPercent()
+							CurrentTempProgressSpeedFactor.ToStringPercent()
 						}));
 					}
 				}
 			}
-			stringBuilder.AppendLine("Temperature".Translate() + ": " + base.AmbientTemperature.ToStringTemperature("F0"));
+			stringBuilder.AppendLine("Temperature".Translate() + ": " + AmbientTemperature.ToStringTemperature("F0"));
 			stringBuilder.AppendLine(string.Concat(new string[]
 			{
 				"IdealFermentingTemperature".Translate(),
@@ -222,32 +195,32 @@ namespace Dwarves
 
 		public Thing TakeOutMead()
 		{
-			if (!this.Fermented)
+			if (!Fermented)
 			{
 				Log.Warning("Tried to get beer but it's not yet fermented.");
 				return null;
 			}
 			Thing thing = ThingMaker.MakeThing(ThingDef.Named("LotRD_Mead"), null);
-			thing.stackCount = this.wortCount;
-			this.Reset();
+			thing.stackCount = wortCount;
+			Reset();
 			return thing;
 		}
 
 		public override void Draw()
 		{
 			base.Draw();
-			if (!this.Empty)
+			if (!Empty)
 			{
-				Vector3 drawPos = this.DrawPos;
+				Vector3 drawPos = DrawPos;
 				drawPos.y += 0.046875f;
 				drawPos.z += 0.25f;
 				GenDraw.DrawFillableBar(new GenDraw.FillableBarRequest
 				{
 					center = drawPos,
-					size = Building_FermentingMeadBarrel.BarSize,
-					fillPercent = (float)this.wortCount / 20f,
-					filledMat = this.BarFilledMat,
-					unfilledMat = Building_FermentingMeadBarrel.BarUnfilledMat,
+					size = BarSize,
+					fillPercent = (float)wortCount / 20f,
+					filledMat = BarFilledMat,
+					unfilledMat = BarUnfilledMat,
 					margin = 0.1f,
 					rotation = Rot4.North
 				});
@@ -260,14 +233,14 @@ namespace Dwarves
 			{
 				yield return g;
 			}
-			if (Prefs.DevMode && !this.Empty)
+			if (Prefs.DevMode && !Empty)
 			{
 				yield return new Command_Action
 				{
 					defaultLabel = "Debug: Set progress to 1",
 					action = delegate
 					{
-						this.Progress = 1f;
+						Progress = 1f;
 					}
 				};
 			}

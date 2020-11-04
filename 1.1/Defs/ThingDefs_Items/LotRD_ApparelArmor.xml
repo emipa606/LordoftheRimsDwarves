@@ -266,6 +266,7 @@
     </equippedStatOffsets>
     <thingCategories>
       <li>Apparel</li>
+      <li>ApparelNoble</li>
     </thingCategories>
     <generateCommonality>2</generateCommonality>
     <apparel>
@@ -283,6 +284,9 @@
       </layers>
       <tags>
         <li>LotR_DwarfMilitary</li>
+        <li>Royal</li>
+        <li>RoyalTier2</li>
+        <li>RoyalTier5</li>
       </tags>
       <defaultOutfitTags>
         <li>LotR_DwarfMoria</li>

@@ -22,12 +22,12 @@ namespace Dwarves
 		
 		protected override void Generate(ThingSetMakerParams parms, List<Thing> outThings)
 		{
-			ThingDef thingDef = ThingSetMaker_Treasure.RandomPodContentsDef();
-			float num = Rand.Range(MinMoney, MaxMoney);
+			ThingDef thingDef = RandomPodContentsDef();
+			var num = Rand.Range(MinMoney, MaxMoney);
 			do
 			{
 				Thing thing = ThingMaker.MakeThing(thingDef, null);
-				int num2 = Rand.Range(20, 40);
+				var num2 = Rand.Range(20, 40);
 				if (num2 > thing.def.stackLimit)
 				{
 					num2 = thing.def.stackLimit;
@@ -56,22 +56,22 @@ namespace Dwarves
 
 		private static ThingDef RandomPodContentsDef()
 		{
-			int numMeats = (from x in ThingSetMaker_Treasure.PossiblePodContentsDefs()
+			var numMeats = (from x in PossiblePodContentsDefs()
 			where x.IsMeat
-			select x).Count<ThingDef>();
-			int numLeathers = (from x in ThingSetMaker_Treasure.PossiblePodContentsDefs()
+			select x).Count();
+			var numLeathers = (from x in PossiblePodContentsDefs()
 			where x.IsLeather
-			select x).Count<ThingDef>();
-			return ThingSetMaker_Treasure.PossiblePodContentsDefs().RandomElementByWeight((ThingDef d) => ThingSetMakerUtility.AdjustedBigCategoriesSelectionWeight(d, numMeats, numLeathers));
+			select x).Count();
+			return PossiblePodContentsDefs().RandomElementByWeight((ThingDef d) => ThingSetMakerUtility.AdjustedBigCategoriesSelectionWeight(d, numMeats, numLeathers));
 		}
 
 		[DebugOutput]
 		[Category("Incidents")]
 		private static void PodContentsPossibleDefs()
 		{
-			StringBuilder stringBuilder = new StringBuilder();
+			var stringBuilder = new StringBuilder();
 			stringBuilder.AppendLine("ThingDefs that can go in the resource pod crash incident.");
-			foreach (ThingDef thingDef in ThingSetMaker_Treasure.PossiblePodContentsDefs())
+			foreach (ThingDef thingDef in PossiblePodContentsDefs())
 			{
 				stringBuilder.AppendLine(thingDef.defName);
 			}
@@ -82,17 +82,17 @@ namespace Dwarves
 		[Category("Incidents")]
 		private static void PodContentsTest()
 		{
-			StringBuilder stringBuilder = new StringBuilder();
-			for (int i = 0; i < 100; i++)
+			var stringBuilder = new StringBuilder();
+			for (var i = 0; i < 100; i++)
 			{
-				stringBuilder.AppendLine(ThingSetMaker_Treasure.RandomPodContentsDef().LabelCap);
+				stringBuilder.AppendLine(RandomPodContentsDef().LabelCap);
 			}
 			Log.Message(stringBuilder.ToString(), false);
 		}
 
 		protected override IEnumerable<ThingDef> AllGeneratableThingsDebugSub(ThingSetMakerParams parms)
 		{
-			return ThingSetMaker_Treasure.PossiblePodContentsDefs();
+			return PossiblePodContentsDefs();
 		}
 
 

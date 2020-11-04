@@ -13,10 +13,20 @@ namespace Dwarves
         {
             if (!(t is Building_FermentingMeadBarrel building_FermentingMeadBarrel) ||
                 !building_FermentingMeadBarrel.Fermented)
+            {
                 return false;
+            }
+
             if (t.IsBurning())
+            {
                 return false;
-            if (t.IsForbidden(pawn)) return false;
+            }
+
+            if (t.IsForbidden(pawn))
+            {
+                return false;
+            }
+
             LocalTargetInfo target = t;
             return pawn.CanReserve(target, 1, -1, null, forced);
         }

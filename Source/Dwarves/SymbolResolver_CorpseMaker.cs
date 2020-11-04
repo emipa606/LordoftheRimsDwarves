@@ -13,18 +13,18 @@ namespace Dwarves
 
             var count = rp.hivesCount ?? 1;
             
-            for (int i = 0; i < count; i++)
+            for (var i = 0; i < count; i++)
             {
                 PawnKindDef kind = (Rand.Value > 0.3f) ? DwarfDefOf.LotRD_DwarfVillager : DwarfDefOf.LotRD_DwarfGuardMountain;
                 Faction faction = rp.faction;
-                PawnGenerationRequest request = new PawnGenerationRequest(kind, faction,
+                var request = new PawnGenerationRequest(kind, faction,
                     PawnGenerationContext.NonPlayer, BaseGen.globalSettings?.map?.Tile ?? Find.CurrentMap.Tile, false, false, false, false, true, true, 1f, false, true, false,
                     false, false, false, false, false, 0,  null, 1, null, null, null, null, null, null);
                 Pawn pawn = PawnGenerator.GeneratePawn(request);
 
                 //CellFinder.TryFindBestPawnStandCell(pawn, out spawnLoc);
                 var map = BaseGen.globalSettings?.map ?? Find.CurrentMap;
-                CellFinderLoose.TryGetRandomCellWith((x => x.IsValid && rp.rect.Contains(x) && x.GetEdifice(map) == null && x.GetFirstItem(map) == null), map, 250, out IntVec3 spawnLoc);
+                CellFinderLoose.TryGetRandomCellWith(x => x.IsValid && rp.rect.Contains(x) && x.GetEdifice(map) == null && x.GetFirstItem(map) == null, map, 250, out IntVec3 spawnLoc);
                 GenSpawn.Spawn(pawn, spawnLoc, map);
                 pawn.Kill(null);
                 if (pawn?.Corpse is Corpse c && c.TryGetComp<CompRottable>() is CompRottable comp)

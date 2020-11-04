@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" ?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Patch>
   <!--  First patching the dwarven throne to be acceptable to any pawn that would otherwise require a meditation or grand meditation throne.
         Then rebalanced it to be a bit above the grand throne for building cost and beauty/comfort, but not as OP as before when beauty and comfort
@@ -86,24 +86,26 @@
       <Comfort>1.0</Comfort>
     </value>
   </Operation>
-
   <!-- Adjustments to the royalty DLC itself to allow the throne to actually satisfy throne-room requirements.
       Note that "Esquire" will be changed to "Acolyte" in the Royalty DLC soon, the code below tries to account for that by adding the throne for both,
       but not complaining if it fails. Handling all other titles with stricter error handling ensures the code itself works fine in general.
   -->
   <!--<Operation Class="PatchOperationAdd">
     <xpath>/Defs/RoyalTitleDef[defName = "Esquire" or defName = "Acolyte"]/throneRoomRequirements/li[@Class = "RoomRequirement_HasAssignedThroneAnyOf"]/things</xpath>
-    --><!--success>Always</success--><!--
-    --><!-- this step WILL fail, either for Esquire or Acolyte --><!--
+    -->
+  <!--success>Always</success-->
+  <!--
+    -->
+  <!-- this step WILL fail, either for Esquire or Acolyte -->
+  <!--
     <value>
       <li>LotRD_DwarvenThrone</li>
     </value>
-  </Operation>-->  
+  </Operation>-->
   <Operation Class="PatchOperationInsert">
     <xpath>/Defs/RoyalTitleDef/throneRoomRequirements/li/things/li[text()="Throne"]</xpath>
     <value>
       <li>LotRD_DwarvenThrone</li>
     </value>
   </Operation>
-
 </Patch>

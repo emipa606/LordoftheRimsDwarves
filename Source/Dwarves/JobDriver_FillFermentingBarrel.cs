@@ -11,17 +11,19 @@ namespace Dwarves
 		private const TargetIndex WortInd = TargetIndex.B;
 		private const int Duration = 200;
 		
-		protected Building_FermentingMeadBarrel Barrel => (Building_FermentingMeadBarrel)this.job.GetTarget(BarrelInd).Thing;
-		protected Thing Wort => this.job.GetTarget(WortInd).Thing;
+		protected Building_FermentingMeadBarrel Barrel => (Building_FermentingMeadBarrel)job.GetTarget(BarrelInd).Thing;
+		protected Thing Wort => job.GetTarget(WortInd).Thing;
 
-		public override bool TryMakePreToilReservations(bool yeaa) => 
-			this.pawn.Reserve(this.Barrel, this.job, 1, -1, null) && this.pawn.Reserve(this.Wort, this.job, 1, -1, null);
+        public override bool TryMakePreToilReservations(bool yeaa)
+        {
+            return pawn.Reserve(Barrel, job, 1, -1, null) && pawn.Reserve(Wort, job, 1, -1, null);
+        }
 
-		protected override IEnumerable<Toil> MakeNewToils()
+        protected override IEnumerable<Toil> MakeNewToils()
 		{
 			this.FailOnDespawnedNullOrForbidden(BarrelInd);
 			this.FailOnBurningImmobile(BarrelInd);
-			base.AddEndCondition(() => (Barrel.SpaceLeftForWort > 0) ? JobCondition.Ongoing : JobCondition.Succeeded);
+            AddEndCondition(() => (Barrel.SpaceLeftForWort > 0) ? JobCondition.Ongoing : JobCondition.Succeeded);
 			yield return Toils_General.DoAtomic(delegate
 			{
 				job.count = Barrel.SpaceLeftForWort;

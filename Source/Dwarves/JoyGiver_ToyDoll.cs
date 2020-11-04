@@ -17,30 +17,46 @@ namespace Dwarves
         public override float GetChance(Pawn pawn)
         {
             //younger colonists have a better chance
-            if (pawn.ageTracker.AgeBiologicalYears < 13) return def.baseChance * 3;
-            if (pawn.ageTracker.AgeBiologicalYears < 19) return def.baseChance;
-            if (pawn.ageTracker.AgeBiologicalYears < 20) return def.baseChance * 0.5f;
-            if (pawn.ageTracker.AgeBiologicalYears < 40) return def.baseChance * 0.25f;
+            if (pawn.ageTracker.AgeBiologicalYears < 13)
+            {
+                return def.baseChance * 3;
+            }
+
+            if (pawn.ageTracker.AgeBiologicalYears < 19)
+            {
+                return def.baseChance;
+            }
+
+            if (pawn.ageTracker.AgeBiologicalYears < 20)
+            {
+                return def.baseChance * 0.5f;
+            }
+
+            if (pawn.ageTracker.AgeBiologicalYears < 40)
+            {
+                return def.baseChance * 0.25f;
+            }
+
             return def.baseChance * 0.15f;
         }
 
         //folks can play with dolls during a party and when they're by themselves: hence the dual-job
         public override Job TryGiveJob(Pawn pawn)
         {
-            return this.TryGiveJobInternal(pawn, null);
+            return TryGiveJobInternal(pawn, null);
         }
 
         public override Job TryGiveJobInGatheringArea(Pawn pawn, IntVec3 gatheringSpot)
         {
-            return this.TryGiveJobInternal(pawn, (Thing x) => !x.Spawned || GatheringsUtility.InGatheringArea(x.Position, gatheringSpot, pawn.Map));
+            return TryGiveJobInternal(pawn, (Thing x) => !x.Spawned || GatheringsUtility.InGatheringArea(x.Position, gatheringSpot, pawn.Map));
         }
 
         private Job TryGiveJobInternal(Pawn pawn, Predicate<Thing> extraValidator)
         {
-            Thing thing = this.BestIngestItem(pawn, extraValidator);
+            Thing thing = BestIngestItem(pawn, extraValidator);
             if (thing != null)
             {
-                return this.CreateIngestJob(thing, pawn);
+                return CreateIngestJob(thing, pawn);
             }
             return null;
         }
@@ -48,10 +64,14 @@ namespace Dwarves
         protected override Thing BestIngestItem(Pawn pawn, Predicate<Thing> extraValidator)
         {
             //Find a doll
-            bool predicate(Thing t) => (t.def == DefDatabase<ThingDef>.GetNamed("LotRD_DwarfElfToy")) && pawn.CanReserve(t) && (extraValidator == null || extraValidator(t));
-            List<Thing> searchSet = new List<Thing>();
+            bool predicate(Thing t)
+            {
+                return (t.def == DefDatabase<ThingDef>.GetNamed("LotRD_DwarfElfToy")) && pawn.CanReserve(t) && (extraValidator == null || extraValidator(t));
+            }
+
+            var searchSet = new List<Thing>();
             GetSearchSet(pawn, searchSet);
-            TraverseParms traverseParams = TraverseParms.For(pawn, Danger.Deadly, TraverseMode.ByPawn, false);
+            var traverseParams = TraverseParms.For(pawn, Danger.Deadly, TraverseMode.ByPawn, false);
 
             return GenClosest.ClosestThing_Global_Reachable(pawn.Position, pawn.Map, searchSet, PathEndMode.OnCell, traverseParams, 9999f, predicate, null);
         }

@@ -20,8 +20,10 @@ namespace Dwarves
         {
             if (!(t is Building_FermentingMeadBarrel Building_FermentingMeadBarrel) ||
                 Building_FermentingMeadBarrel.Fermented || Building_FermentingMeadBarrel.SpaceLeftForWort <= 0)
+            {
                 return false;
-            
+            }
+
             var ambientTemperature = Building_FermentingMeadBarrel.AmbientTemperature;
             var compProperties =
                 Building_FermentingMeadBarrel.def.GetCompProperties<CompProperties_TemperatureRuinable>();
@@ -31,13 +33,27 @@ namespace Dwarves
                 JobFailReason.Is(TemperatureTrans);
                 return false;
             }
-            if (t.IsForbidden(pawn)) return false;
-            LocalTargetInfo target = t;
-            if (!pawn.CanReserve(target, 1, -1, null, forced)) return false;
-            if (pawn.Map.designationManager.DesignationOn(t, DesignationDefOf.Deconstruct) != null)
+            if (t.IsForbidden(pawn))
+            {
                 return false;
-            
-            if (FindWort(pawn, Building_FermentingMeadBarrel) != null) return !t.IsBurning();
+            }
+
+            LocalTargetInfo target = t;
+            if (!pawn.CanReserve(target, 1, -1, null, forced))
+            {
+                return false;
+            }
+
+            if (pawn.Map.designationManager.DesignationOn(t, DesignationDefOf.Deconstruct) != null)
+            {
+                return false;
+            }
+
+            if (FindWort(pawn, Building_FermentingMeadBarrel) != null)
+            {
+                return !t.IsBurning();
+            }
+
             JobFailReason.Is(NoWortTrans);
             return false;
         }
@@ -51,7 +67,11 @@ namespace Dwarves
 
         private Thing FindWort(Pawn pawn, Building_FermentingMeadBarrel barrel)
         {
-            bool Predicate(Thing x) => !x.IsForbidden(pawn) && pawn.CanReserve(x, 1, -1, null, false);
+            bool Predicate(Thing x)
+            {
+                return !x.IsForbidden(pawn) && pawn.CanReserve(x, 1, -1, null, false);
+            }
+
             var position = pawn.Position;
             var map = pawn.Map;
             var thingReq = ThingRequest.ForDef(ThingDef.Named("LotRD_MeadWort"));

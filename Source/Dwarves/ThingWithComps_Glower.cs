@@ -20,11 +20,11 @@ namespace Dwarves
 
         public void CheckNeedsDestruction()
         {
-            if (master != null && this.Spawned)
+            if (master != null && Spawned)
             {
                 if (!master.Spawned)
                 {
-                    this.Destroy(0);
+                    Destroy(0);
                     return;
                 }
 
@@ -33,7 +33,11 @@ namespace Dwarves
 
         public void CheckNeedsFlick()
         {
-            if (master == null) return;
+            if (master == null)
+            {
+                return;
+            }
+
             CompFlickable masterflickable = master.TryGetComp<CompFlickable>();
             CompFlickable flickable = this.TryGetComp<CompFlickable>();
 
@@ -46,7 +50,7 @@ namespace Dwarves
         public override void ExposeData()
         {
             base.ExposeData();
-            Scribe_References.Look<Building_StreetLamp>(ref this.master, "master", false);
+            Scribe_References.Look(ref master, "master", false);
         }
     }
 }

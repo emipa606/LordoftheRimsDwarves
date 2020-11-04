@@ -80,7 +80,10 @@ namespace Dwarves
         //While Earthbread prefers caves, it does not die when exposed to sunlight
         public static void get_DyingBecauseExposedToLight_PostFix(Plant __instance, ref bool __result)
         {
-            if (__instance.def.defName == "LotRD_PlantEarthBreadRoot") __result = false;
+            if (__instance.def.defName == "LotRD_PlantEarthBreadRoot")
+            {
+                __result = false;
+            }
         }
 
         public static bool RandomSettlementTileFor_PreFix(ref int __result, Faction faction)
@@ -106,7 +109,7 @@ namespace Dwarves
 
         public static int RandomSettlementTileFor_HighElves(Faction faction, bool mustBeAutoChoosable = false)
         {
-            for (int i = 0; i < 500; i++)
+            for (var i = 0; i < 500; i++)
             {
                 if ((from _ in Enumerable.Range(0, 100)
                      select Rand.Range(0, Find.WorldGrid.TilesCount)).TryRandomElementByWeight(delegate (int x)
@@ -117,9 +120,12 @@ namespace Dwarves
                          return 0f;
                      }
                      if (tile.Rivers != null && tile.Rivers.Count > 0)
+                     {
                          return 1000f;
+                     }
+
                      return 0f; //tile.biome.settlementSelectionWeight;
-                }, out int num))
+                }, out var num))
                 {
                     if (TileFinder.IsValidTileForNewSettlement(num, null))
                     {
@@ -134,7 +140,7 @@ namespace Dwarves
 
         public static int RandomSettlementTileFor_MountainDwarves(Faction faction, bool mustBeAutoChoosable = false)
         {
-            for (int i = 0; i < 500; i++)
+            for (var i = 0; i < 500; i++)
             {
                 if ((from _ in Enumerable.Range(0, 100)
                      select Rand.Range(0, Find.WorldGrid.TilesCount)).TryRandomElementByWeight(delegate (int x)
@@ -145,9 +151,12 @@ namespace Dwarves
                          return 0f;
                      }
                      if (tile.hilliness == Hilliness.Mountainous)
+                     {
                          return 1000f;
+                     }
+
                      return 0f; //tile.biome.settlementSelectionWeight;
-                }, out int num))
+                }, out var num))
                 {
                     if (TileFinder.IsValidTileForNewSettlement(num, null))
                     {
@@ -161,7 +170,7 @@ namespace Dwarves
 
         public static int RandomSettlementTileFor_HillDwarves(Faction faction, bool mustBeAutoChoosable = false)
         {
-            for (int i = 0; i < 500; i++)
+            for (var i = 0; i < 500; i++)
             {
                 if ((from _ in Enumerable.Range(0, 100)
                      select Rand.Range(0, Find.WorldGrid.TilesCount)).TryRandomElementByWeight(delegate (int x)
@@ -171,11 +180,14 @@ namespace Dwarves
                      {
                          return 0f;
                      }
-                     List<int> neighbors = new List<int>();
+                     var neighbors = new List<int>();
                      if (tile.hilliness == Hilliness.LargeHills)
+                     {
                          return 1000f;
+                     }
+
                      return 0f; //tile.biome.settlementSelectionWeight;
-                }, out int num))
+                }, out var num))
                 {
                     if (TileFinder.IsValidTileForNewSettlement(num, null))
                     {

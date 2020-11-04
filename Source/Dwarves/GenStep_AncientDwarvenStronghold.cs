@@ -23,15 +23,15 @@ namespace Dwarves
 
 		public override void Generate(Map map, GenStepParams parms)
 		{
-            if (!MapGenerator.TryGetVar<CellRect>("RectOfInterest", out CellRect rectToDefend))
+            if (!MapGenerator.TryGetVar("RectOfInterest", out CellRect rectToDefend))
             {
                 rectToDefend = CellRect.SingleCell(map.Center);
             }
-            TerrainDef floorDef = TerrainDef.Named("FlagstoneGranite"); // rp.floorDef ?? BaseGenUtility.CorrespondingTerrainDef(thingDef, true);
+            var floorDef = TerrainDef.Named("FlagstoneGranite"); // rp.floorDef ?? BaseGenUtility.CorrespondingTerrainDef(thingDef, true);
 
 			Faction faction = Find.FactionManager.FirstFactionOfDef(DwarfDefOf.LotRD_MonsterFaction);
 			ResolveParams rp = default;
-			rp.rect = this.GetOutpostRect(rectToDefend, map);
+			rp.rect = GetOutpostRect(rectToDefend, map);
 			rp.rect = rp.rect.ExpandedBy(30);
 			Log.Message(rp.rect.minX.ToString() + " " + rp.rect.minZ.ToString());
 			rp.faction = faction;
@@ -108,10 +108,12 @@ namespace Dwarves
 			ResolveParams dragonHorde = rp;
 			dragonHorde.rect = BottomHalf(dragonRoomRect).ContractedBy(5); //new CellRect(dragonRoomRect.minX, (int)(dragonRoomRect.minZ + dragonRoomRect.Height / 2f), dragonRoomRect.Width, (int)(dragonRoomRect.Height / 2f));
 			dragonHorde.thingSetMakerDef = DwarfDefOf.LotRD_Treasure;
-			var newParamsForItemGen = new ThingSetMakerParams();
-			newParamsForItemGen.countRange = new IntRange(15, 20);
-			newParamsForItemGen.maxThingMarketValue = Rand.Range(10000, 15000);
-			dragonHorde.thingSetMakerParams = newParamsForItemGen;
+            var newParamsForItemGen = new ThingSetMakerParams
+            {
+                countRange = new IntRange(15, 20),
+                maxThingMarketValue = Rand.Range(10000, 15000)
+            };
+            dragonHorde.thingSetMakerParams = newParamsForItemGen;
 			dragonHorde.singleThingStackCount = 250;
 			BaseGen.symbolStack.Push("stockpile", dragonHorde);
 			//
@@ -133,11 +135,11 @@ namespace Dwarves
 			
 			///
 			/// Abandoned Dwarven Mountain Fortress
-			int num = 0;
-			int? edgeDefenseWidth = rp.edgeDefenseWidth;
-			float num2 = (float)rp.rect.Area / 144f * 0.17f;
-			BaseGen.globalSettings.minEmptyNodes = ((num2 >= 1f) ? GenMath.RoundRandom(num2) : 0);
-			TraverseParms traverseParms = TraverseParms.For(TraverseMode.PassDoors, Danger.Deadly, false);
+			var num = 0;
+			var edgeDefenseWidth = rp.edgeDefenseWidth;
+			var num2 = (float)rp.rect.Area / 144f * 0.17f;
+			BaseGen.globalSettings.minEmptyNodes = (num2 >= 1f) ? GenMath.RoundRandom(num2) : 0;
+			var traverseParms = TraverseParms.For(TraverseMode.PassDoors, Danger.Deadly, false);
 			ResolveParams abandonedBase = rp;
 			abandonedBase.rect = rp.rect;
 			abandonedBase.faction = faction;
@@ -154,10 +156,10 @@ namespace Dwarves
 			/// 
 			
 			///Four Corners -- Four Guardtowers
-			for (int i = 0; i < 3; i++)
+			for (var i = 0; i < 3; i++)
 			{
 				IntVec3 towerCorner = rp.rect.Corners.ElementAt(i);
-				CellRect towerRect = new CellRect(towerCorner.x, towerCorner.z, 10, 10);
+				var towerRect = new CellRect(towerCorner.x, towerCorner.z, 10, 10);
 				var towerParams = default(ResolveParams);
 				towerParams.rect = towerRect;
 				BaseGen.symbolStack.Push("roof", towerRect);
@@ -206,15 +208,15 @@ namespace Dwarves
 
 		private CellRect GetOutpostRect(CellRect rectToDefend, Map map)
 		{
-			GenStep_AncientDwarvenStronghold.possibleRects.Add(new CellRect(rectToDefend.minX - 1 - 16, rectToDefend.CenterCell.z - 8, 16, 16));
-			GenStep_AncientDwarvenStronghold.possibleRects.Add(new CellRect(rectToDefend.maxX + 1, rectToDefend.CenterCell.z - 8, 16, 16));
-			GenStep_AncientDwarvenStronghold.possibleRects.Add(new CellRect(rectToDefend.CenterCell.x - 8, rectToDefend.minZ - 1 - 16, 16, 16));
-			GenStep_AncientDwarvenStronghold.possibleRects.Add(new CellRect(rectToDefend.CenterCell.x - 8, rectToDefend.maxZ + 1, 16, 16));
-			CellRect mapRect = new CellRect(0, 0, map.Size.x, map.Size.z);
-			GenStep_AncientDwarvenStronghold.possibleRects.RemoveAll((CellRect x) => !x.FullyContainedWithin(mapRect));
-			if (GenStep_AncientDwarvenStronghold.possibleRects.Any<CellRect>())
+            possibleRects.Add(new CellRect(rectToDefend.minX - 1 - 16, rectToDefend.CenterCell.z - 8, 16, 16));
+            possibleRects.Add(new CellRect(rectToDefend.maxX + 1, rectToDefend.CenterCell.z - 8, 16, 16));
+            possibleRects.Add(new CellRect(rectToDefend.CenterCell.x - 8, rectToDefend.minZ - 1 - 16, 16, 16));
+            possibleRects.Add(new CellRect(rectToDefend.CenterCell.x - 8, rectToDefend.maxZ + 1, 16, 16));
+			var mapRect = new CellRect(0, 0, map.Size.x, map.Size.z);
+            possibleRects.RemoveAll((CellRect x) => !x.FullyContainedWithin(mapRect));
+			if (possibleRects.Any())
 			{
-				return GenStep_AncientDwarvenStronghold.possibleRects.RandomElement<CellRect>();
+				return possibleRects.RandomElement();
 			}
 			return rectToDefend;
 		}

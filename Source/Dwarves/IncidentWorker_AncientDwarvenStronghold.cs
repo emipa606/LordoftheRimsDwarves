@@ -29,13 +29,15 @@ namespace Dwarves
         {
             int findTile(int root)
             {
-                int minDist2 = minDist;
-                int maxDist2 = maxDist;
-                bool validator(int x) =>
-                    !Find.WorldObjects.AnyWorldObjectAt(x) &&
-                    Find.World.HasCaves(x) && TileFinder.IsValidTileForNewSettlement(x, null);
-                bool preferCloserTiles2 = preferCloserTiles;
-                if (TileFinder.TryFindPassableTileWithTraversalDistance(root, minDist2, maxDist2, out int result, validator,
+                var minDist2 = minDist;
+                var maxDist2 = maxDist;
+                bool validator(int x)
+                {
+                    return !Find.WorldObjects.AnyWorldObjectAt(x) && Find.World.HasCaves(x) && TileFinder.IsValidTileForNewSettlement(x, null);
+                }
+
+                var preferCloserTiles2 = preferCloserTiles;
+                if (TileFinder.TryFindPassableTileWithTraversalDistance(root, minDist2, maxDist2, out var result, validator,
                     false, preferCloserTiles2))
                 {
                     return result;
@@ -59,7 +61,7 @@ namespace Dwarves
 
         protected override bool TryExecuteWorker(IncidentParms parms)
         {
-            if (!TryFindNewSiteTile(out int tile, 8, 30, false, true, -1))
+            if (!TryFindNewSiteTile(out var tile, 8, 30, false, true, -1))
             {
                 return false;
             }
@@ -74,7 +76,7 @@ namespace Dwarves
             site.sitePartsKnown = true;
             site.GetComponent<DefeatAllEnemiesQuestComp>().StartQuest(Faction.OfPlayer, 8, GenerateRewards());
             Find.WorldObjects.Add(site);
-            base.SendStandardLetter(parms, site);
+            SendStandardLetter(parms, site);
             return true;
         }
 
@@ -85,25 +87,25 @@ namespace Dwarves
             return ThingSetMakerDefOf.Reward_ItemsStandard.root.Generate(parms);
         }
 
-//        private bool TryFindFactions(out Faction alliedFaction, out Faction enemyFaction)
-//        {
-//            if ((from x in Find.FactionManager.AllFactions
-//                where !x.def.hidden && !x.defeated && !x.IsPlayer && !x.HostileTo(Faction.OfPlayer) &&
-//                      this.CommonHumanlikeEnemyFactionExists(Faction.OfPlayer, x) && !this.AnyQuestExistsFrom(x)
-//                select x).TryRandomElement(out alliedFaction))
-//            {
-//                enemyFaction = this.CommonHumanlikeEnemyFaction(Faction.OfPlayer, alliedFaction);
-//                return true;
-//            }
-//            alliedFaction = null;
-//            enemyFaction = null;
-//            return false;
-//        }
+        //        private bool TryFindFactions(out Faction alliedFaction, out Faction enemyFaction)
+        //        {
+        //            if ((from x in Find.FactionManager.AllFactions
+        //                where !x.def.hidden && !x.defeated && !x.IsPlayer && !x.HostileTo(Faction.OfPlayer) &&
+        //                      this.CommonHumanlikeEnemyFactionExists(Faction.OfPlayer, x) && !this.AnyQuestExistsFrom(x)
+        //                select x).TryRandomElement(out alliedFaction))
+        //            {
+        //                enemyFaction = this.CommonHumanlikeEnemyFaction(Faction.OfPlayer, alliedFaction);
+        //                return true;
+        //            }
+        //            alliedFaction = null;
+        //            enemyFaction = null;
+        //            return false;
+        //        }
 
         private bool AnyQuestExistsFrom(Faction faction)
         {
             List<Site> sites = Find.WorldObjects.Sites;
-            for (int i = 0; i < sites.Count; i++)
+            for (var i = 0; i < sites.Count; i++)
             {
                 DefeatAllEnemiesQuestComp component = sites[i].GetComponent<DefeatAllEnemiesQuestComp>();
                 if (component != null && component.Active && component.requestingFaction == faction)
@@ -116,7 +118,7 @@ namespace Dwarves
 
         private bool CommonHumanlikeEnemyFactionExists(Faction f1, Faction f2)
         {
-            return this.CommonHumanlikeEnemyFaction(f1, f2) != null;
+            return CommonHumanlikeEnemyFaction(f1, f2) != null;
         }
 
         private Faction CommonHumanlikeEnemyFaction(Faction f1, Faction f2)

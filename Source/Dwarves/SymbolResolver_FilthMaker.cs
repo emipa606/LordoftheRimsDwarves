@@ -24,41 +24,41 @@ namespace Dwarves
 		{
 			if (x2 < x1)
 			{
-				swap<int>(ref x1, ref x2);
+                swap(ref x1, ref x2);
 			}
 			if (z2 < z1)
 			{
-				swap<int>(ref z1, ref z2);
+                swap(ref z1, ref z2);
 			}
-			int num = (x2 - x1) / 2;
-			int num2 = (z2 - z1) / 2;
-			int x3 = x1 + num;
-			int y3 = z1 + num2;
+			var num = (x2 - x1) / 2;
+			var num2 = (z2 - z1) / 2;
+			var x3 = x1 + num;
+			var y3 = z1 + num2;
 			return DrawEllipseUsingRadius(x3, y3, num, num2, fill);
 		}
 		public static IEnumerable<IntVec3> DrawEllipseUsingRadius(int x, int y, int xRadius, int yRadius, bool fill = false)
 		{
-			HashSet<IntVec3> hashSet = new HashSet<IntVec3>();
-			int num = 0;
-			int num2 = yRadius;
-			int num3 = xRadius * xRadius;
-			int num4 = yRadius * yRadius;
-			int num5 = -(num3 / 4 + xRadius % 2 + num4);
-			int num6 = -(num4 / 4 + yRadius % 2 + num3);
-			int num7 = -(num4 / 4 + yRadius % 2);
-			int num8 = -num3 * num2;
-			int num9 = 2 * num4 * num;
-			int num10 = -2 * num3 * num2;
-			int num11 = 2 * num4;
-			int num12 = 2 * num3;
+			var hashSet = new HashSet<IntVec3>();
+			var num = 0;
+			var num2 = yRadius;
+			var num3 = xRadius * xRadius;
+			var num4 = yRadius * yRadius;
+			var num5 = -((num3 / 4) + (xRadius % 2) + num4);
+			var num6 = -((num4 / 4) + (yRadius % 2) + num3);
+			var num7 = -((num4 / 4) + (yRadius % 2));
+			var num8 = -num3 * num2;
+			var num9 = 2 * num4 * num;
+			var num10 = -2 * num3 * num2;
+			var num11 = 2 * num4;
+			var num12 = 2 * num3;
 			while (num2 >= 0 && num <= xRadius)
 			{
 				circlePlot(x, y, hashSet, num, num2);
-				if (num8 + num4 * num <= num5 || num8 + num3 * num2 <= num7)
+				if (num8 + (num4 * num) <= num5 || num8 + (num3 * num2) <= num7)
 				{
 					incrementX(ref num, ref num9, ref num11, ref num8);
 				}
-				else if (num8 - num3 * num2 > num6)
+				else if (num8 - (num3 * num2) > num6)
 				{
 					incrementY(ref num2, ref num10, ref num12, ref num8);
 				}
@@ -78,19 +78,19 @@ namespace Dwarves
 
 		public static IEnumerable<IntVec3> Fill(IEnumerable<IntVec3> outLine)
 		{
-			HashSet<IntVec3> hashSet = new HashSet<IntVec3>();
+			var hashSet = new HashSet<IntVec3>();
 			foreach (IGrouping<int, IntVec3> grouping in from vec in outLine
 				group vec by vec.z)
 			{
-				if (grouping.Count<IntVec3>() == 1)
+				if (grouping.Count() == 1)
 				{
-					hashSet.Add(grouping.First<IntVec3>());
+					hashSet.Add(grouping.First());
 				}
 				else
 				{
 					grouping.OrderBy((IntVec3 v) => v.x);
-					IntVec3 intVec = grouping.First<IntVec3>();
-					IntVec3 intVec2 = grouping.Last<IntVec3>();
+					IntVec3 intVec = grouping.First();
+					IntVec3 intVec2 = grouping.Last();
 					hashSet.AddRange(DrawHorizontalLine(intVec.x, intVec2.x, intVec.y, grouping.Key).ToList());
 				}
 			}
@@ -101,7 +101,7 @@ namespace Dwarves
 		{
 			if (x1 > x2)
 			{
-				swap<int>(ref x1, ref x2);
+                swap(ref x1, ref x2);
 			}
 			return from x in Enumerable.Range(x1, x2 - x1 + 1)
 				select new IntVec3(x, y, z);
