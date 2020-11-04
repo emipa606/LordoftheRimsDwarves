@@ -98,9 +98,9 @@
     <value>
       <li>LotRD_DwarvenThrone</li>
     </value>
-  </Operation>-->
-  <Operation Class="PatchOperationAdd">
-    <xpath>/Defs/RoyalTitleDef[defName = "Esquire" or defName = "Acolyte" or defName = "Knight" or defName = "Praetor" or defName = "Baron" or defName = "Count" or @Name="BaseEmpireTitleNPC"]/throneRoomRequirements/li[@Class = "RoomRequirement_HasAssignedThroneAnyOf"]/things</xpath>
+  </Operation>-->  
+  <Operation Class="PatchOperationInsert">
+    <xpath>/Defs/RoyalTitleDef/throneRoomRequirements/li/things/li[text()="Throne"]</xpath>
     <value>
       <li>LotRD_DwarvenThrone</li>
     </value>
