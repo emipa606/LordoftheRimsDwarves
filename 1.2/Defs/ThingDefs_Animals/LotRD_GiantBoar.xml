@@ -49,6 +49,14 @@
       <wildness>0.60</wildness>
       <trainability>Advanced</trainability>
       <manhunterOnTameFailChance>0.018</manhunterOnTameFailChance>
+      <wildBiomes>
+				<BorealForest>0.25</BorealForest>
+				<ColdBog>0.25</ColdBog>
+				<TemperateForest>0.25</TemperateForest>
+				<TemperateSwamp>0.25</TemperateSwamp>
+				<TropicalRainforest>0.25</TropicalRainforest>
+				<TropicalSwamp>0.25</TropicalSwamp>
+      </wildBiomes>
       <useMeatFrom>Pig</useMeatFrom>
       <useLeatherFrom>Pig</useLeatherFrom>
       <gestationPeriodDays>13</gestationPeriodDays>
